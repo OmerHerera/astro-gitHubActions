@@ -1,6 +1,7 @@
 name: astro-github-actions
 run-name: ${{ github.actor }} is learning GitHub Actions
-on: [push]
+# on: [push]
+on: [pull_request]
 jobs:
   check-bats-version:
     runs-on: ubuntu-latest
