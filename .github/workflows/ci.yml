@@ -15,7 +15,6 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
         with:
-          path: client-code
           fetch-depth: 0
           persist-credentials: false
       
@@ -40,11 +39,7 @@ jobs:
       contents: read
     steps:
       - name: Using code
-        uses: actions/upload-artifact@v2
-        with:
-          path: client-code
-          name: client-code
-          run: npm ci --ignore-scripts
+        run: npm ci --ignore-scripts
         
       
       # - name: Install dependencies
