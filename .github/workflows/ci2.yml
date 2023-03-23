@@ -1,18 +1,23 @@
 name: CI2
-concurrency: ${{ github.workflow }}-${{ github.ref }}
 
 on:
-  workflow_run:
-    workflows: ["CI"]
-    types:
-      - completed
+  workflow_call:
+    # inputs:
+    #   config-path:
+    #     required: true
+    #     type: string
+    # secrets:
+    #   token:
+    #     required: true
+
 jobs:
-  ci:
-    timeout-minutes: 10
+  triage:
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
     steps:
       - name: Install dependencies
         run: npm ci --ignore-scripts
+        
+    # - uses: actions/labeler@v4
+    #   with:
+    #     repo-token: ${{ secrets.token }}
+    #     configuration-path: ${{ inputs.config-path }}
