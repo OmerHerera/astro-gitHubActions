@@ -1,8 +1,8 @@
 name: CI
 concurrency: ${{ github.workflow }}-${{ github.ref }}
 
-on:
-  pull_request:
+on: push
+
 jobs:
   ci:
     timeout-minutes: 10
