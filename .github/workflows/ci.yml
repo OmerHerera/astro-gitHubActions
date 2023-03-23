@@ -15,6 +15,7 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
         with:
+          path: client-code
           fetch-depth: 0
           persist-credentials: false
       
@@ -26,34 +27,38 @@ jobs:
           cache: npm
           registry-url: https://registry.npmjs.org
       
-      - name: Install dependencies
-        run: npm ci --ignore-scripts
+      # - name: Install dependencies
+      #   run: npm ci --ignore-scripts
 
   job_2:
     name: ci2
-    needs: job_1
     timeout-minutes: 10
     runs-on: ubuntu-latest
+    needs: job_1
     permissions:
       id-token: write
       contents: read
     steps:
-      - name: checkout
-        uses: actions/checkout@v3
+      - name: Using code
+        uses: actions/upload-artifact@v2
         with:
-          fetch-depth: 0
-          persist-credentials: false
+          path: client-code
+          name: client-code
+          run: npm ci --ignore-scripts
+        
       
-      - name: Use Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version-file: .nvmrc
-          always-auth: true
-          cache: npm
-          registry-url: https://registry.npmjs.org
-      
-      - name: Install dependencies
-        run: npm ci --ignore-scripts
+      # - name: Install dependencies
+      #   run: npm ci --ignore-scripts
+    # steps:
+    #   - name: using code
+    #     uses: actions/upload-artifact@v2
+    #     with:
+    #       name: my-repo
+    #       path: my-repo
+    #     run: npm ci --ignore-scripts
+        
+
+      # Add your steps for job2 here
     
   # call-workflow:
   #   uses: ./.github/workflows/ci2.yml
