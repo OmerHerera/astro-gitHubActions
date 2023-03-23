@@ -49,7 +49,7 @@ jobs:
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
       
       - name: Use checked out code
-        run: ls
+        run: cd my-repo && ll && npm run dev
   # call-workflow:
   #   uses: ./.github/workflows/ci2.yml
 
