@@ -1,0 +1,32 @@
+name: CI
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+on: push
+
+jobs:
+  ci:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version-file: .nvmrc
+          always-auth: true
+          cache: npm
+          registry-url: https://registry.npmjs.org
+      
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+    
+  call-workflow:
+    uses: OmerHerera/astro-gitHubActions/.github/workflows/ci2.yml@v1
