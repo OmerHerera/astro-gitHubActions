@@ -18,7 +18,6 @@ jobs:
           persist-credentials: false
       
       - name: Use Node.js
-        if: false
         uses: actions/setup-node@v3
         with:
           node-version-file: .nvmrc
