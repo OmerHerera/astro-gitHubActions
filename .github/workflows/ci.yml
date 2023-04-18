@@ -38,7 +38,7 @@ jobs:
           echo $(cat build.number.json)
 
       - name: Get current time in milliseconds
-        run: echo "time_milliseconds:${(date +%s%3N)}" >> $GITHUB_ENV
+        run: echo "time_milliseconds=$(date +%s%3N)" >> $GITHUB_ENV
         id: current_time
       
       - name: Use the output
