@@ -33,10 +33,12 @@ jobs:
         run: cd my-repo && npm install
       
       - name: Get current time in milliseconds
+        if: true
         run: echo "time_milliseconds=$(date +%s%3N)" >> $GITHUB_ENV
         id: current_time
 
       - name: Create file
+        if: true
         run: | 
           echo '{"buildNum": 5, "timestamp": ${{ env.time_milliseconds }} }' > build.number.json
           echo $(cat build.number.json)
