@@ -41,7 +41,7 @@ jobs:
         run: echo "time_milliseconds=$(date +%s%3N)" >> $GITHUB_ENV
         id: current_time
       
-      - name: Use the output
+      - name: Use the output time
         if: true
         run: |
           echo "Time Milliseconds-> ${{ env.time_milliseconds }}"
