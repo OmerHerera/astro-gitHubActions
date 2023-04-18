@@ -32,19 +32,19 @@ jobs:
         if: false
         run: cd my-repo && npm install
       
-      - name: Create file
-        run: | 
-          echo '{"buildNum": 5 }' > build.number.json
-          echo $(cat build.number.json)
-
       - name: Get current time in milliseconds
         run: echo "time_milliseconds=$(date +%s%3N)" >> $GITHUB_ENV
         id: current_time
+
+      - name: Create file
+        run: | 
+          echo '{"buildNum": 5, "timestamp": ${{ env.time_milliseconds }} }' > build.number.json
+          echo $(cat build.number.json)
       
-      - name: Use the output time
-        if: true
-        run: |
-          echo "Time Milliseconds-> ${{ env.time_milliseconds }}"
+      # - name: Use the output time
+      #   if: true
+      #   run: |
+      #     echo "Time Milliseconds-> ${{ env.time_milliseconds }}"
       
       # - name: Install dependencies
       #   run: npm ci --ignore-scripts
