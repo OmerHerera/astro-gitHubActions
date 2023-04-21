@@ -18,6 +18,16 @@ jobs:
         # with:
         #   path: my-repo
       
+      - name: Create changelog
+        id: changelog
+        run: |
+          lastVersion=$(git describe --abbrev=0)
+          log=$(git log --pretty=%s $lastVersion..HEAD)
+          echo "::set-output name=log::$log"
+      
+      - name: Display changelog
+        run: echo "${{ steps.changelog.outputs.log }}"
+      
       - name: Cache dependencies
         if: false
         uses: actions/cache@v2
@@ -50,7 +60,8 @@ jobs:
           echo "Gzip completed"
       
       - name: Display result
-        run: find ./src/layouts -type f -name "*.js.gz" 
+        run: find ./src/layouts -type f -name "*.js.gz"
+      
       
       # - name: Use the output time
       #   if: true
