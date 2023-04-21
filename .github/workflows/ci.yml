@@ -15,8 +15,8 @@ jobs:
       - name: Checkout Code
         if: true
         uses: actions/checkout@v3
-        with:
-          path: my-repo
+        # with:
+        #   path: my-repo
       
       - name: Cache dependencies
         if: false
