@@ -46,11 +46,11 @@ jobs:
       - name: Gzip JS files
         run: |
           ls && pwd
-          find ./../../src/layouts -type f -name "*.astro" -exec sh -c 'gzip < {} > {}.gz' \;
+          find ./src/layouts -type f -name "*.astro" -exec sh -c 'gzip < {} > {}.gz' \;
           echo "Gzip completed"
       
       - name: Display result
-        run: find src/layouts -type f -name "*.js.gz" 
+        run: find ./src/layouts -type f -name "*.js.gz" 
       
       # - name: Use the output time
       #   if: true
