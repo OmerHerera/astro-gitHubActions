@@ -42,6 +42,11 @@ jobs:
       - name: Display changelog
         run: echo "${{ env.log }}"
       
+      - name: Tag version
+        run: |
+          git tag -a ${{ github.sha }} -f -m "Tagging version ${{ github.sha }}"
+          git push --follow-tags
+
       - name: Cache dependencies
         if: false
         uses: actions/cache@v2
