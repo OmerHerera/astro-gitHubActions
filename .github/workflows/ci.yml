@@ -18,13 +18,27 @@ jobs:
         # with:
         #   path: my-repo
       
+      - name: Check if tags exist
+        id: tags_exist
+        run: |
+          tag_count=$(git tag | wc -l)
+          if [ "$tag_count" -eq "0" ]; then
+            echo "::set-output name=tags_exist::false"
+          else
+            echo "::set-output name=tags_exist::true"
+          fi
+
       - name: Create changelog
         id: changelog
         run: |
-          lastVersion=$(git describe --abbrev=0)
-          log=$(git log --pretty=%s $lastVersion..HEAD)
-          echo "::set-output name=log::$log"
-      
+          if [ "${{ steps.tags_exist.outputs.tags_exist }}" == "true" ]; then
+            lastVersion=$(git describe --abbrev=0)
+            log=$(git log --pretty=%s $lastVersion..HEAD)
+            echo "::set-output name=log::$log"
+          else
+            echo "::set-output name=log::No tags found"
+          fi
+
       - name: Display changelog
         run: echo "${{ steps.changelog.outputs.log }}"
       
