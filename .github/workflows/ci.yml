@@ -13,7 +13,7 @@ jobs:
       contents: read
     steps:
       - name: Checkout Code
-        if: false
+        if: true
         uses: actions/checkout@v3
         with:
           path: my-repo
