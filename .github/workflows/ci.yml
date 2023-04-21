@@ -23,24 +23,24 @@ jobs:
         run: |
           tag_count=$(git tag | wc -l)
           if [ "$tag_count" -eq "0" ]; then
-            echo "::set-output name=tags_exist::false"
+            echo "tags_exist='false'" >> $GITHUB_ENV
           else
-            echo "::set-output name=tags_exist::true"
+            echo "tags_exist='true'" >> $GITHUB_ENV
           fi
 
       - name: Create changelog
         id: changelog
         run: |
-          if [ "${{ steps.tags_exist.outputs.tags_exist }}" == "true" ]; then
+          if [ "${{ env.tags_exist }}" == "true" ]; then
             lastVersion=$(git describe --abbrev=0)
             log=$(git log --pretty=%s $lastVersion..HEAD)
-            echo "::set-output name=log::$log"
+            echo "log=${log}" >> $GITHUB_ENV
           else
-            echo "::set-output name=log::No tags found"
+            echo "log='No tags found'" >> $GITHUB_ENV
           fi
 
       - name: Display changelog
-        run: echo "${{ steps.changelog.outputs.log }}"
+        run: echo "${{ env.log }}"
       
       - name: Cache dependencies
         if: false
