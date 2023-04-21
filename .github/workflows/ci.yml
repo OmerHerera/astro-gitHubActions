@@ -42,6 +42,9 @@ jobs:
       - name: Display changelog
         run: echo "${{ env.log }}"
       
+      - name: Set Git user email
+        run: git config user.email "omer.herera@gmail.com"
+      
       - name: Tag version
         run: |
           git tag -a ${{ github.sha }} -f -m "Tagging version ${{ github.sha }}"
