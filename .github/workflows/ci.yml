@@ -45,7 +45,7 @@ jobs:
       
       - name: Gzip JS files
         run: |
-          find src/layouts -type f -name "*.astro" -exec sh -c 'gzip < {} > {}.gz' \;
+          find ./../../src/layouts -type f -name "*.astro" -exec sh -c 'gzip < {} > {}.gz' \;
           echo "Gzip completed"
       
       - name: Display result
