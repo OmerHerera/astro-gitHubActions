@@ -33,15 +33,23 @@ jobs:
         run: cd my-repo && npm install
       
       - name: Get current time in milliseconds
-        if: true
+        if: false
         run: echo "time_milliseconds=$(date +%s%3N)" >> $GITHUB_ENV
         id: current_time
 
       - name: Create file
-        if: true
+        if: false
         run: | 
           echo '{"buildNum": 5, "timestamp": ${{ env.time_milliseconds }} }' > build.number.json
           echo $(cat build.number.json)
+      
+      - name: Gzip JS files
+        run: |
+          find src/layouts -type f -name "*.astro" -exec sh -c "gzip < {} > {}.gz" \\;
+          echo "Gzip completed"
+      
+      - name: Display result
+        run: find src/layouts -type f -name "*.js.gz" 
       
       # - name: Use the output time
       #   if: true
