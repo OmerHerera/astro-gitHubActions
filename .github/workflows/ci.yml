@@ -20,12 +20,12 @@ jobs:
       
       - name: Display result 1
         run: |
-          find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+          npm run build
 
       
       - name: Display result 2
         run: 
           |
-          find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
+          npm run preview
 
        
