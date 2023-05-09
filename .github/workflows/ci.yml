@@ -4,166 +4,18 @@ concurrency: ${{ github.workflow }}-${{ github.ref }}
 on: push
 
 jobs:
-  job_1:
-    name: ci
+  Functional_Test:
+    name: Functional Test
     timeout-minutes: 10
     runs-on: ubuntu-latest
-    permissions:
-      id-token: write
-      contents: read
+
     steps:
-      - name: Checkout Code
-        if: true
-        uses: actions/checkout@v3
-        # with:
-        #   path: my-repo
+      - uses: actions/checkout@v3          
       
-      - name: Check if tags exist
-        id: tags_exist
-        run: |
-          tag_count=$(git tag | wc -l)
-          if [ "$tag_count" -eq "0" ]; then
-            echo "tags_exist='false'" >> $GITHUB_ENV
-          else
-            echo "tags_exist='true'" >> $GITHUB_ENV
-          fi
-
-      - name: Create changelog
-        id: changelog
-        run: |
-          if [ "${{ env.tags_exist }}" == "true" ]; then
-            lastVersion=$(git describe --abbrev=0)
-            log=$(git log --pretty=%s $lastVersion..HEAD)
-            echo "log=${log}" >> $GITHUB_ENV
-          else
-            echo "log='No tags found'" >> $GITHUB_ENV
-          fi
-
-      - name: Display changelog
-        run: echo "${{ env.log }}"
-      
-      - name: Set Git user email
-        run: git config user.email "omer.herera@gmail.com"
-      
-      - name: Tag version
-        run: |
-          git tag -a ${{ github.sha }} -f -m "Tagging version ${{ github.sha }}"
-          git push --follow-tags
-
-      - name: Cache dependencies
-        if: false
-        uses: actions/cache@v2
-        with:
-          path: |
-            ~/.npm
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-npm-
-      
-      - name: Install dependencies
-        if: false
-        run: cd my-repo && npm install
-      
-      - name: Get current time in milliseconds
-        if: false
-        run: echo "time_milliseconds=$(date +%s%3N)" >> $GITHUB_ENV
-        id: current_time
-
-      - name: Create file
-        if: false
-        run: | 
-          echo '{"buildNum": 5, "timestamp": ${{ env.time_milliseconds }} }' > build.number.json
-          echo $(cat build.number.json)
-      
-      - name: Gzip JS files
-        run: |
-          ls && pwd
-          find ./src/layouts -type f -name "*.js" -exec sh -c 'gzip < {} > {}.gz' \;
-          echo "Gzip completed"
-      
-      - name: Display result
+      - name: Display result 1
         run: find ./src/layouts -type f -name "*.js.gz"
       
-      
-      # - name: Use the output time
-      #   if: true
-      #   run: |
-      #     echo "Time Milliseconds-> ${{ env.time_milliseconds }}"
-      
-      # - name: Install dependencies
-      #   run: npm ci --ignore-scripts
+      - name: Display result 2
+        run: find ./src/layouts -type f -name "*.js.gz"          
 
-  # job_2:
-  #   name: ci2
-  #   if: false
-  #   timeout-minutes: 10
-  #   runs-on: ubuntu-latest
-  #   needs: job_1
-  #   permissions:
-  #     id-token: write
-  #     contents: read
-  #   steps:
-  #     - name: Restore dependencies
-  #       uses: actions/cache@v2
-  #       with:
-  #         path: |
-  #           ~/.npm
-  #         key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-      
-  #     - name: Use checked out code
-  #       run: cd my-repo && ll && npm run dev
-  # call-workflow:
-  #   uses: ./.github/workflows/ci2.yml
-
-
-# name: Share data between jobs
-
-# on: [push]
-
-# jobs:
-#   job_1:
-#     name: Add 3 and 7
-#     runs-on: ubuntu-latest
-#     steps:
-#       - shell: bash
-#         run: |
-#           expr 3 + 7 > math-homework.txt
-#       - name: Upload math result for job 1
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: homework
-#           path: math-homework.txt
-
-#   job_2:
-#     name: Multiply by 9
-#     needs: job_1
-#     runs-on: windows-latest
-#     steps:
-#       - name: Download math result for job 1
-#         uses: actions/download-artifact@v3
-#         with:
-#           name: homework
-#       - shell: bash
-#         run: |
-#           value=`cat math-homework.txt`
-#           expr $value \* 9 > math-homework.txt
-#       - name: Upload math result for job 2
-#         uses: actions/upload-artifact@v3
-#         with:
-#           name: homework
-#           path: math-homework.txt
-
-#   job_3:
-#     name: Display results
-#     needs: job_2
-#     runs-on: macOS-latest
-#     steps:
-#       - name: Download math result for job 2
-#         uses: actions/download-artifact@v3
-#         with:
-#           name: homework
-#       - name: Print the final result
-#         shell: bash
-#         run: |
-#           value=`cat math-homework.txt`
-#           echo The result is $value
+       
