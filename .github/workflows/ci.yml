@@ -10,12 +10,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v3          
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      
+      - run: npm ci
       
       - name: Display result 1
-        run: find ./src/layouts -type f -name "*.astro"
+        run: |
+          find ./src/layouts -type f -name "*.astro"
+          ll
+
       
       - name: Display result 2
-        run: find ./src/layouts -type f -name "*.astro"          
+        run: 
+          |
+          find ./src/layouts -type f -name "*.astro"
+          ll        
 
        
