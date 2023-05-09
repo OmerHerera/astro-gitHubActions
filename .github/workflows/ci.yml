@@ -26,6 +26,6 @@ jobs:
       - name: Display result 2
         run: 
           |
-          npm run preview
+          npm run build
 
        
