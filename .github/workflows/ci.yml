@@ -20,14 +20,12 @@ jobs:
       
       - name: Display result 1
         run: |
-          find ./src/layouts -type f -name "*.astro"
-          ll
+          find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
       
       - name: Display result 2
         run: 
           |
-          find ./src/layouts -type f -name "*.astro"
-          ll        
+          find . | sed -e "s/[^-][^\/]*\// |/g" -e "s/|\([^ ]\)/|-\1/"
 
        
